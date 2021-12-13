@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>codbad</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div id="formContainer">
+      <h1 class="logo">Go....!</h1>
+      <form action="" onsubmit="return false;">
+        <div class="form">
+          <div>
+            <span>Name</span>
+            <input type="text" name="name" id="" required />
+          </div>
+          <div>
+            <span>Url</span>
+            <input type="text" name="url" id="" required />
+            <button type="submit">Submit</button>
+            <p id="message"></p>
+          </div>
+        </div>
+      </form>
+      <div id="list"></div>
+    </div>
+  </body>
+  <script>
+    const inputs = document.querySelectorAll("input");
+    inputs[0].addEventListener("keydown", () => {
+      const message = document.querySelector("#message");
+      message.textContent = "";
+      message.style.display = "none";
+    });
+    const button = document.querySelector("button");
+    button.addEventListener("click", async () => {
+      const inputs = document.querySelectorAll("input");
+      const name = inputs[0].value;
+      const url = inputs[1].value;
+      if (url && name) {
+        const response = await fetch("/addSite", {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify({ name, url }),
+        });
+        if (response.status === 201) {
+          const message = document.querySelector("#message");
+          message.style.display = "block";
+          const inputs = document.querySelectorAll("input");
+          inputs[0].value = "";
+          inputs[1].value = "";
+          message.textContent = "Link registered wit Go succesfully.";
+        }
+        if (response.status === 409) {
+          const message = document.querySelector("#message");
+          message.style.display = "block";
+          message.textContent = "Link is already registered with Go.";
+        }
+      }
+    });
+  </script>
+</html>
