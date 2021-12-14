@@ -15,4 +15,4 @@ Go-app is url-shortner that runs locally. Navigate to ur favorite urls in few ke
 - add the below entry in host file
   127.0.0.1         go
 - save the host files
-- type go/ in your browser and start using Go-App
+- type go/ in your browser and enter your shortcuts(example: g - https://google.com) and use go/g in browser to navigate to google.
