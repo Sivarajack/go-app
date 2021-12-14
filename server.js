@@ -11,6 +11,9 @@ app.use(bodyParser.json());
 app.get("/", (req, response) => {
   response.sendFile(path.join(__dirname, "index.html"));
 });
+app.get("/getUrls", (req, response) => {
+  response.send(sites);
+});
 app.get("/:path", (req, response) => {
   const name = req.params.path;
   const url = sites[name];
@@ -23,6 +26,7 @@ app.get("/:path", (req, response) => {
   });
   response.end();
 });
+
 app.post("/addSite", (req, response) => {
   const { name, url } = req.body;
   if (name && url) {

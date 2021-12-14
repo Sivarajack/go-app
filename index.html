@@ -28,12 +28,62 @@
     </div>
   </body>
   <script>
+    let urls;
+    fetch("/getUrls")
+      .then((response) => response.json())
+      .then((data = []) => {
+        urls = data;
+        const list = document.querySelector("#list");
+        console.log(Object.entries(data));
+        for (let [name, url] of Object.entries(data).slice(0, 10)) {
+          console.log(url, name);
+          let nameEle = document.createElement("div");
+          nameEle.innerHTML = name;
+          let urlEle = document.createElement("div");
+          urlEle.innerHTML = url;
+          const row = document.createElement("div");
+          row.appendChild(nameEle);
+          row.appendChild(urlEle);
+          list.appendChild(row);
+        }
+      });
+
     const inputs = document.querySelectorAll("input");
-    inputs[0].addEventListener("keydown", () => {
+    inputs[0].addEventListener("keyup", (e) => {
       const message = document.querySelector("#message");
       message.textContent = "";
       message.style.display = "none";
+      const filteredData = Object.entries(urls).filter(([name, url]) => {
+        return name.startsWith(e.target.value);
+      });
+      const list = document.querySelector("#list");
+      if (!filteredData.length) {
+        list.style.display = "none";
+        return;
+      } else {
+        list.style.display = "block";
+      }
+
+      list.innerHTML = "";
+      for (let [name, url] of filteredData.slice(0, 10)) {
+        let nameEle = document.createElement("div");
+        nameEle.innerHTML = name;
+        let urlEle = document.createElement("div");
+        urlEle.innerHTML = url;
+        const row = document.createElement("div");
+        row.appendChild(nameEle);
+        row.appendChild(urlEle);
+        list.appendChild(row);
+      }
+      if (Object.keys(urls).includes(event.target.value)) {
+        message.style.display = "block";
+        message.textContent = "Link is already registered with Go.";
+        document.querySelector("button").disabled = true;
+      } else {
+        document.querySelector("button").disabled = false;
+      }
     });
+
     const button = document.querySelector("button");
     button.addEventListener("click", async () => {
       const inputs = document.querySelectorAll("input");
