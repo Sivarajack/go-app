@@ -10,9 +10,9 @@ Go-app is url-shortner that runs locally. Navigate to ur favorite urls in few ke
 - Clone the rep and navigate to the directory
 - run npm install
 - npm i -g pm2
-- npm start    #command
-- pm2 startup  #command
-- sudo vi /etc/hosts #command
+- npm start    
+- pm2 startup  
+- sudo vi /etc/hosts 
 - add the below entry in host file
   127.0.0.1         go
 - save the host files
